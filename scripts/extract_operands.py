@@ -97,6 +97,68 @@ def sample_pair_products(charges, max_pairs=2_000_000, seed=0):
     return np.abs(q[i] * q[j])
 
 
+def extract_arrays(tpr, struct=None, gmx_dump=None, max_pairs=2_000_000, do_pairs=True):
+    """Pull the operand value arrays out of a .tpr. Returns (arrays, meta).
+
+    Reusable core shared by this script's CLI and the batch driver nga_gromacs.py.
+    arrays maps operand name -> np.ndarray of values; meta carries n_atoms + notes.
+    """
+    try:
+        import MDAnalysis as mda
+    except ImportError:
+        raise SystemExit("MDAnalysis is required: pip install 'MDAnalysis>=2.7'")
+    import warnings
+    warnings.filterwarnings("ignore")
+
+    u = mda.Universe(tpr, struct) if struct else mda.Universe(tpr)
+    ag = u.atoms
+    charges = np.asarray(ag.charges, dtype=np.float64)
+    masses = np.asarray(ag.masses, dtype=np.float64)
+    arrays = {"charge": charges, "mass": masses}
+    notes = []
+
+    try:
+        arrays["position"] = np.asarray(ag.positions, dtype=np.float64).ravel()
+    except Exception:
+        notes.append("no coordinates in input (pass a structure file for positions)")
+
+    if do_pairs:
+        arrays["coulomb_qq_product"] = sample_pair_products(charges, max_pairs=max_pairs)
+
+    if gmx_dump:
+        try:
+            from parse_gmx_dump import parse_nbfp
+        except ImportError:
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            from parse_gmx_dump import parse_nbfp
+        c6, c12 = parse_nbfp(gmx_dump)
+        if c6.size:
+            arrays["lj_c6"], arrays["lj_c12"] = c6, c12
+        else:
+            notes.append("gmx dump supplied but no c6/c12 parsed (check format/version)")
+
+    return arrays, {"n_atoms": int(ag.n_atoms), "notes": notes}
+
+
+def build_summary(label, tpr, arrays, meta):
+    return {
+        "label": label,
+        "n_atoms": meta["n_atoms"],
+        "tpr": os.path.abspath(tpr),
+        "notes": meta.get("notes", []),
+        "operands": {k: dynamic_range_stats(v, k) for k, v in arrays.items()},
+    }
+
+
+def print_range_table(summary, indent="  "):
+    print(f"{indent}operand              count      |min|        |max|      decades")
+    print(indent + "-" * 62)
+    for k, s in summary["operands"].items():
+        if "abs_min" in s:
+            print(f"{indent}{k:<18} {s['count_nonzero']:>8}  {s['abs_min']:.3e}  "
+                  f"{s['abs_max']:.3e}   {s['decades']:>6.2f}")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -106,65 +168,25 @@ def main():
     ap.add_argument("--gmx-dump", default=None,
                     help="optional text output of `gmx dump -s system.tpr` for c6/c12")
     ap.add_argument("--out", default="operands_out", help="output directory")
-    ap.add_argument("--label", default=None, help="system label for summary (e.g. benchMEM)")
+    ap.add_argument("--label", default=None, help="system label (e.g. benchMEM)")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
     label = args.label or os.path.splitext(os.path.basename(args.tpr))[0]
 
-    try:
-        import MDAnalysis as mda
-    except ImportError:
-        sys.exit("MDAnalysis is required: pip install 'MDAnalysis>=2.7'")
-
-    import warnings
-    warnings.filterwarnings("ignore")
-
-    u = mda.Universe(args.tpr, args.struct) if args.struct else mda.Universe(args.tpr)
-    ag = u.atoms
-    charges = np.asarray(ag.charges, dtype=np.float64)
-    masses = np.asarray(ag.masses, dtype=np.float64)
-    print(f"[{label}] n_atoms={ag.n_atoms}  nonzero_charges={np.count_nonzero(charges)}")
-
-    arrays = {"charge": charges, "mass": masses}
-
-    # positions if available
-    try:
-        arrays["position"] = np.asarray(ag.positions, dtype=np.float64).ravel()
-    except Exception:
-        print("  (no coordinates in this input; supply --struct for a position histogram)")
-
-    # pairwise Coulomb operand product |q_i q_j|
-    arrays["coulomb_qq_product"] = sample_pair_products(charges)
-
-    # LJ c6/c12 from gmx dump text, if provided
-    if args.gmx_dump:
-        try:
-            from parse_gmx_dump import parse_nbfp
-        except ImportError:
-            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-            from parse_gmx_dump import parse_nbfp
-        c6, c12 = parse_nbfp(args.gmx_dump)
-        if c6.size:
-            arrays["lj_c6"] = c6
-            arrays["lj_c12"] = c12
-            print(f"  parsed nbfp: {c6.size} (i,j) type pairs from gmx dump")
-        else:
-            print("  WARNING: no c6/c12 parsed from gmx dump (check format/version)")
+    arrays, meta = extract_arrays(args.tpr, args.struct, args.gmx_dump)
+    print(f"[{label}] n_atoms={meta['n_atoms']}  "
+          f"nonzero_charges={np.count_nonzero(arrays['charge'])}")
+    for n in meta["notes"]:
+        print(f"  ({n})")
 
     np.savez_compressed(os.path.join(args.out, "operands.npz"), **arrays)
-
-    summary = {"label": label, "n_atoms": int(ag.n_atoms), "tpr": os.path.abspath(args.tpr),
-               "operands": {k: dynamic_range_stats(v, k) for k, v in arrays.items()}}
+    summary = build_summary(label, args.tpr, arrays, meta)
     with open(os.path.join(args.out, "summary.json"), "w") as f:
         json.dump(summary, f, indent=2)
 
-    # console dynamic-range table
-    print(f"\n  operand              count      |min|        |max|      decades")
-    print("  " + "-" * 62)
-    for k, s in summary["operands"].items():
-        if "abs_min" in s:
-            print(f"  {k:<18} {s['count_nonzero']:>8}  {s['abs_min']:.3e}  {s['abs_max']:.3e}   {s['decades']:>6.2f}")
+    print()
+    print_range_table(summary)
     print(f"\n  wrote {args.out}/operands.npz and summary.json")
 
 

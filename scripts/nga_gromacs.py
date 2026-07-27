@@ -77,7 +77,9 @@ def main():
                     help="dir of coordinate files (matched to each .tpr by basename)")
     ap.add_argument("--gmx-dump-dir", default=None,
                     help="dir of `gmx dump` text files (basename-matched) for c6/c12")
-    ap.add_argument("--plot", action="store_true", help="also render histograms")
+    ap.add_argument("--plot", action="store_true", help="also render histograms (one grid per system)")
+    ap.add_argument("--separate", action="store_true",
+                    help="render one histogram PNG per operand (one-per-slide)")
     ap.add_argument("--no-pairs", action="store_true",
                     help="skip the |q_i q_j| pairwise-product sampling (faster)")
     ap.add_argument("--max-pairs", type=int, default=2_000_000)
@@ -118,11 +120,14 @@ def main():
             json.dump(summary, f, indent=2)
         print_range_table(summary)
 
-        if args.plot:
-            subprocess.run([sys.executable, os.path.join(HERE, "plot_histograms.py"),
-                            os.path.join(sysdir, "operands.npz"),
-                            "--summary", os.path.join(sysdir, "summary.json"),
-                            "--out", sysdir, "--label", label], check=False)
+        if args.plot or args.separate:
+            cmd = [sys.executable, os.path.join(HERE, "plot_histograms.py"),
+                   os.path.join(sysdir, "operands.npz"),
+                   "--summary", os.path.join(sysdir, "summary.json"),
+                   "--out", sysdir, "--label", label]
+            if args.separate:
+                cmd.append("--separate")
+            subprocess.run(cmd, check=False)
 
         row = {"system": label, "n_atoms": meta["n_atoms"]}
         for k, s in summary["operands"].items():

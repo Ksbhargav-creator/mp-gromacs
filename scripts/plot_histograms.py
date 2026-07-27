@@ -73,12 +73,33 @@ def _panel(ax, values, title, show_formats=True):
                         color=col, fontsize=6.5, rotation=90, va="top")
 
 
+def ordered_keys(data):
+    keys = [k for k in ("charge", "mass", "position", "coulomb_qq_product",
+                        "lj_c6", "lj_c12", "product_magnitude",
+                        "lj_term", "coulomb_term") if k in data.files]
+    keys += [k for k in data.files if k not in keys]
+    return keys
+
+
+def plot_single(values, title, label, out_path):
+    """One operand, one figure -- sized for a single slide."""
+    fig, ax = plt.subplots(figsize=(7.0, 4.6))
+    _panel(ax, values, title)
+    fig.suptitle(f"{label}", fontsize=12, y=0.98)
+    fig.tight_layout(rect=[0, 0, 1, 0.96])
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
+    print("wrote", out_path)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("npz", help="operands.npz from extract_operands.py")
     ap.add_argument("--summary", default=None, help="summary.json (for the title label)")
     ap.add_argument("--out", default="figs", help="output directory for PNGs")
     ap.add_argument("--label", default=None)
+    ap.add_argument("--separate", action="store_true",
+                    help="write one PNG per operand (for one-per-slide) instead of a grid")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -89,10 +110,13 @@ def main():
             label = label or json.load(f).get("label")
     label = label or os.path.basename(os.path.dirname(os.path.abspath(args.npz)))
 
-    keys = [k for k in ("charge", "mass", "position", "coulomb_qq_product",
-                        "lj_c6", "lj_c12", "product_magnitude",
-                        "lj_term", "coulomb_term") if k in data.files]
-    keys += [k for k in data.files if k not in keys]
+    keys = ordered_keys(data)
+
+    if args.separate:
+        for k in keys:
+            out = os.path.join(args.out, f"operand_histogram_{label}_{k}.png")
+            plot_single(data[k], PRETTY.get(k, k), label, out)
+        return
 
     ncol = 2
     nrow = int(np.ceil(len(keys) / ncol))

@@ -6,20 +6,6 @@
     magnitudes that fall inside posit's high-precision zone, motivating us to test these
     applications under mixed precision. We work with the molecular-dynamics engine
     GROMACS and the input generator CHARMM-GUI.
-    
-    We built a pipeline that extracts the operand distributions feeding the GROMACS and
-    CHARMM force computations — partial charges, atomic masses, and pairwise Coulomb
-    products |q_i·q_j| — directly from compiled run inputs, and records their dynamic
-    range. On the Kutzner benchMEM benchmark (81,743-atom membrane protein) these
-    operands occupy a bounded range (~1.5 decades for charges, ~3 for Coulomb products),
-    with nearly 100% of values inside posit16's high-precision zone. Across the full
-    Kutzner size ladder (82K–12.5M atoms) the operands stay bounded and centred near
-    unity, but the width is set by the system and force field rather than size: the same
-    molecule spans 2.3 decades of charge under OPLS vs 1.6 under CHARMM, and highly
-    charged systems (ribosome, protein–ligand binding) push the Coulomb products wider
-    (to ~6.5 decades) — evidence the distribution is a force-field and chemistry
-    property, and thus a candidate for a tailored format. These results indicate the MD force loop is a
-    promising target for posit-based mixed precision, our immediate next step.
 
 
 # What GROMACS is

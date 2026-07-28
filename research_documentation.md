@@ -103,15 +103,19 @@ standard-MD size ladder (benchMEM 82K → benchRIB 2.1M → benchPEP 12.5M) plus
 protein-ligand binding-affinity set.
 
 **Findings.** 
+
 (1) Across the whole size ladder (82K → 12.5M atoms) operand ranges stay
 bounded (mass ~1.5–1.8 decades, charge ~1.5–3.5) and centred near unity — a good posit
 fit at every scale. 
+
 (2) The range is a property of the system / force field, not of run size or variant:
 benchPEP and benchPEP-h are identical, cmet_eq and cmet_ti are identical, and the 12.5M 
-benchPEP (charge 2.51, Coulomb 2.89) is actually *narrower* than the 2.1M benchRIB (3.46, 6.48). 
+benchPEP (charge 2.51, Coulomb 2.89) is actually *narrower* than the 2.1M benchRIB (3.46, 6.48).
+
 (3) The widest ranges appear in the ribosome (benchRIB, Coulomb 6.48 decades — highly charged 
 nucleic-acid backbone) and the binding-affinity systems (cmet, 5.71) — the wide-product regime
 where a single narrow posit cannot suffice and a quire / mixed scheme matters most. 
+
 (4) The same molecule spans 2.3 decades of charge under OPLS vs 1.6 under CHARMM — 
 direct evidence for a per-force-field tailored format. Caveat: these are *operand* 
 ranges; the runtime *products* (LJ r^-12 tower, Coulomb q_i·q_j/r) span even wider 
@@ -120,7 +124,7 @@ and are where mixed precision will actually be tested.
 
 # What we instrumented in CHARMM GUI
 
-Not yet run through a CHARMM-GUI-generated system. Preliminary result: we verified the
+Not yet run through a CHARMM-GUI-generated system. Preliminary result: Claude verified the
 same pipeline ingests CHARMM-native PSF topology directly — a CHARMM adenylate-kinase
 PSF gave 1.60 / 1.50 / 3.20 decades for charge / mass / Coulomb product (the CHARMM row
 above), confirming CHARMM operands reach the pipeline unchanged. Planned next step:
@@ -132,4 +136,9 @@ for the LJ panels.
 
 # Mixed-precision plan
 
-*To be written.*
+Future direction: Build a trace and replay offline system. Use the instrumentation
+(nga_range_stats.hpp) we already have and record the operands and products of the force
+loops in double precision(the ground truth). We will then replay these operations using 
+the recorded inputs offline in a posit+quire library(universal) and we can compare this
+with the ground truth. This is easier and a much more approachable step than rewriting
+GROMACS kernels for posit+quire.

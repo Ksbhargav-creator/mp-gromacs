@@ -1,4 +1,4 @@
-# mp-gromacs — GROMACS value-distribution / dynamic-range histograms
+## mp-gromacs — GROMACS value-distribution / dynamic-range histograms
 
 Build histograms for molecular dynamics — the distribution of the real numbers a
 GROMACS force computation actually forms — to make the case for a **custom NGA**
@@ -8,7 +8,7 @@ than a generic one).
 The pipeline mirrors the SPICE side (`include/sw/mp_spice/klu_study.hpp`,
 `DynamicRangeStats` / `product_magnitude_stats`).
 
-## Instrumentation of GROMACS
+# Instrumentation of GROMACS
 
 A `.tpr` is a compiled GROMACS run, not a readable value file like a SPICE `.mtx`.
 But that only blocks the *intermediate products* of the force loop — **the numeric

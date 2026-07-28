@@ -95,9 +95,7 @@ mass 1.008, |q_i·q_j| 0.29).
 | benchPEP-h | Kutzner std MD — peptides (H-mass repart.) | 12,495,503 | 2.51 | 1.55 | 2.89 |
 | cmet_eq | Kutzner binding-affinity (FEP, equilibration) | 67,291 | 3.15 | 1.55 | 5.71 |
 | cmet_ti | Kutzner binding-affinity (FEP, thermodynamic integ.) | 67,291 | 3.15 | 1.55 | 5.71 |
-| adk (OPLS) * | validation — adenylate kinase | 47,681 | 2.32 | 1.50 | 3.56 |
-| cobrotoxin * | validation | 19,385 | 2.32 | 1.55 | 3.56 |
-| adk (CHARMM PSF) * | validation | 3,341 | 1.60 | 1.50 | 3.20 |
+
 
 \* Validation systems from the MDAnalysis test set, used to validate the pipeline and
 illustrate force-field dependence. All six Kutzner benchmarks are now run: the full

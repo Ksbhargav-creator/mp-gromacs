@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.integration.benchrib",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "integration",
+    "description": "Leap-frog Verlet time integration (per-atom vector update).",
+    "operation_role": "a = F/m; v += a*dt; x += v*dt  (AXPY-like per-atom update)"
+  },
+  "motif": "dense_linear_algebra",
+  "input_case": {
+    "name": "benchRIB",
+    "size": {
+      "unit": "atoms",
+      "value": 2136412
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-03",
+    "seed": 0,
+    "notes": "Derived from benchRIB.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "mass",
+      "role": "operand",
+      "units": "amu",
+      "stats": {
+        "count": 2136412,
+        "count_zero": 98588,
+        "count_nonzero": 2037824,
+        "signed_min": 0.0,
+        "signed_max": 65.4000015258789,
+        "abs_min": 1.0080000162124634,
+        "abs_max": 65.4000015258789,
+        "decades": 1.812117219362392,
+        "binades_log2": 6.019723102229095,
+        "pct": {
+          "1": 1.0080000162124634,
+          "5": 1.0080000162124634,
+          "50": 1.0080000162124634,
+          "95": 15.99940013885498,
+          "99": 16.0
+        },
+        "log2_hist": {
+          "edges": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0,
+            7.0
+          ],
+          "counts": [
+            1253610,
+            0,
+            7418,
+            717397,
+            51355,
+            8043,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

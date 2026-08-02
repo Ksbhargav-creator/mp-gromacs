@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.integration.benchmem_82k",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "integration",
+    "description": "Leap-frog Verlet time integration (per-atom vector update).",
+    "operation_role": "a = F/m; v += a*dt; x += v*dt  (AXPY-like per-atom update)"
+  },
+  "motif": "dense_linear_algebra",
+  "input_case": {
+    "name": "benchMEM_82K",
+    "size": {
+      "unit": "atoms",
+      "value": 81743
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-03",
+    "seed": 0,
+    "notes": "Derived from benchMEM_82K.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "mass",
+      "role": "operand",
+      "units": "amu",
+      "stats": {
+        "count": 81743,
+        "count_zero": 0,
+        "count_nonzero": 81743,
+        "signed_min": 1.0080000162124634,
+        "signed_max": 35.452999114990234,
+        "abs_min": 1.0080000162124634,
+        "abs_max": 35.452999114990234,
+        "decades": 1.5461924407346999,
+        "binades_log2": 5.136340108979063,
+        "pct": {
+          "1": 1.0080000162124634,
+          "5": 1.0080000162124634,
+          "50": 1.0080000162124634,
+          "95": 15.99940013885498,
+          "99": 15.99940013885498
+        },
+        "log2_hist": {
+          "edges": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "counts": [
+            41294,
+            0,
+            0,
+            40154,
+            271,
+            24
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

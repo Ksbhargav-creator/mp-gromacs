@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.nonbonded_coulomb.benchpep-h",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "nonbonded_coulomb",
+    "description": "Short-range real-space Coulomb interaction over Verlet neighbour pairs (nbnxm).",
+    "operation_role": "per pair: E = f * q_i * q_j * rinv * erfc(beta*r); force summed onto each atom"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "benchPEP-h",
+    "size": {
+      "unit": "atoms",
+      "value": 12495503
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-03",
+    "seed": 0,
+    "notes": "Derived from benchPEP-h.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "charge",
+      "role": "operand",
+      "units": "e",
+      "stats": {
+        "count": 12495503,
+        "count_zero": 0,
+        "count_nonzero": 12495503,
+        "signed_min": -1.0,
+        "signed_max": 1.0,
+        "abs_min": 0.003100000089034438,
+        "abs_max": 1.0,
+        "decades": 2.5086382936924485,
+        "binades_log2": 8.333516027727239,
+        "pct": {
+          "1": 0.4169999957084656,
+          "5": 0.4169999957084656,
+          "50": 0.4169999957084656,
+          "95": 0.8339999914169312,
+          "99": 0.8339999914169312
+        },
+        "log2_hist": {
+          "edges": [
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0,
+            -5.0,
+            -4.0,
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0
+          ],
+          "counts": [
+            1000,
+            0,
+            1000,
+            1250,
+            1500,
+            4250,
+            3750,
+            8303696,
+            4179057
+          ]
+        }
+      }
+    },
+    {
+      "name": "coulomb_qq_product",
+      "role": "product",
+      "units": "e^2",
+      "stats": {
+        "count": 2000000,
+        "count_zero": 0,
+        "count_nonzero": 2000000,
+        "signed_min": 0.0012927000238236036,
+        "signed_max": 1.0,
+        "abs_min": 0.0012927000238236036,
+        "abs_max": 1.0,
+        "decades": 2.888502243188211,
+        "binades_log2": 9.595396753792086,
+        "pct": {
+          "1": 0.1738889964208603,
+          "5": 0.1738889964208603,
+          "50": 0.3477779928417206,
+          "95": 0.6955559856834412,
+          "99": 0.6955559856834412
+        },
+        "log2_hist": {
+          "edges": [
+            -10.0,
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0,
+            -5.0,
+            -4.0,
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0
+          ],
+          "counts": [
+            201,
+            125,
+            422,
+            441,
+            360,
+            938,
+            1530,
+            883520,
+            888809,
+            223654
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

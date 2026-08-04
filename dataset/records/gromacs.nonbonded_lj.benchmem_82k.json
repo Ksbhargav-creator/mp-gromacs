@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.nonbonded_lj.benchmem_82k",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "nonbonded_lj",
+    "description": "Short-range Lennard-Jones (van der Waals) interaction over Verlet neighbour pairs.",
+    "operation_role": "per pair: E = c12*r^-12 - c6*r^-6; force summed onto each atom"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "benchMEM_82K",
+    "size": {
+      "unit": "atoms",
+      "value": 81743
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-04",
+    "seed": 0,
+    "notes": "Derived from benchMEM_82K.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "lj_c6",
+      "role": "operand",
+      "units": "kJ mol^-1 nm^6",
+      "stats": {
+        "count": 961,
+        "count_zero": 61,
+        "count_nonzero": 900,
+        "signed_min": 0.0,
+        "signed_max": 0.0142633598,
+        "abs_min": 8.47260017e-05,
+        "abs_max": 0.0142633598,
+        "decades": 2.2262051255050705,
+        "binades_log2": 7.395293351397541,
+        "pct": {
+          "1": 0.000437749695,
+          "5": 0.000877949176,
+          "50": 0.00453605689,
+          "95": 0.0106621897,
+          "99": 0.012502377467999993
+        },
+        "log2_hist": {
+          "edges": [
+            -14.0,
+            -13.0,
+            -12.0,
+            -11.0,
+            -10.0,
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0
+          ],
+          "counts": [
+            1,
+            0,
+            34,
+            16,
+            8,
+            342,
+            398,
+            101
+          ]
+        }
+      }
+    },
+    {
+      "name": "lj_c12",
+      "role": "operand",
+      "units": "kJ mol^-1 nm^12",
+      "stats": {
+        "count": 961,
+        "count_zero": 61,
+        "count_nonzero": 900,
+        "signed_min": 0.0,
+        "signed_max": 0.000106910004,
+        "abs_min": 1.51130006e-08,
+        "abs_max": 0.000106910004,
+        "decades": 3.8496676462050785,
+        "binades_log2": 12.788319109907553,
+        "pct": {
+          "1": 1.05865503e-07,
+          "5": 7.256399842500003e-07,
+          "50": 6.0440002e-06,
+          "95": 3.53329997e-05,
+          "99": 6.14609744e-05
+        },
+        "log2_hist": {
+          "edges": [
+            -26.0,
+            -25.0,
+            -24.0,
+            -23.0,
+            -22.0,
+            -21.0,
+            -20.0,
+            -19.0,
+            -18.0,
+            -17.0,
+            -16.0,
+            -15.0,
+            -14.0,
+            -13.0
+          ],
+          "counts": [
+            1,
+            0,
+            10,
+            24,
+            2,
+            32,
+            115,
+            146,
+            233,
+            164,
+            109,
+            48,
+            16
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

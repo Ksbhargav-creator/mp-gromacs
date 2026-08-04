@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.nonbonded_lj.cmet_ti",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "nonbonded_lj",
+    "description": "Short-range Lennard-Jones (van der Waals) interaction over Verlet neighbour pairs.",
+    "operation_role": "per pair: E = c12*r^-12 - c6*r^-6; force summed onto each atom"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "cmet_ti",
+    "size": {
+      "unit": "atoms",
+      "value": 67291
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-04",
+    "seed": 0,
+    "notes": "Derived from cmet_ti.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "lj_c6",
+      "role": "operand",
+      "units": "kJ mol^-1 nm^6",
+      "stats": {
+        "count": 1024,
+        "count_zero": 124,
+        "count_nonzero": 900,
+        "signed_min": 0.0,
+        "signed_max": 0.0128167765,
+        "abs_min": 3.07156853e-07,
+        "abs_max": 0.0128167765,
+        "decades": 4.6204186017781605,
+        "binades_log2": 15.348698363387054,
+        "pct": {
+          "1": 3.15613261e-06,
+          "5": 1.5306326355e-05,
+          "50": 0.000473165506,
+          "95": 0.004620536603499997,
+          "99": 0.00666889083
+        },
+        "log2_hist": {
+          "edges": [
+            -22.0,
+            -21.0,
+            -20.0,
+            -19.0,
+            -18.0,
+            -17.0,
+            -16.0,
+            -15.0,
+            -14.0,
+            -13.0,
+            -12.0,
+            -11.0,
+            -10.0,
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0
+          ],
+          "counts": [
+            4,
+            0,
+            0,
+            8,
+            10,
+            23,
+            11,
+            50,
+            104,
+            64,
+            203,
+            108,
+            74,
+            176,
+            59,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "name": "lj_c12",
+      "role": "operand",
+      "units": "kJ mol^-1 nm^12",
+      "stats": {
+        "count": 1024,
+        "count_zero": 124,
+        "count_nonzero": 900,
+        "signed_min": 0.0,
+        "signed_max": 3.86906504e-05,
+        "abs_min": 5.63726962e-13,
+        "abs_max": 3.86906504e-05,
+        "decades": 7.836537223582044,
+        "binades_log2": 26.0324131696478,
+        "pct": {
+          "1": 3.53934937e-11,
+          "5": 4.77184958e-10,
+          "50": 2.7885298e-07,
+          "95": 7.32001536e-06,
+          "99": 1.44132746e-05
+        },
+        "log2_hist": {
+          "edges": [
+            -41.0,
+            -40.0,
+            -39.0,
+            -38.0,
+            -37.0,
+            -36.0,
+            -35.0,
+            -34.0,
+            -33.0,
+            -32.0,
+            -31.0,
+            -30.0,
+            -29.0,
+            -28.0,
+            -27.0,
+            -26.0,
+            -25.0,
+            -24.0,
+            -23.0,
+            -22.0,
+            -21.0,
+            -20.0,
+            -19.0,
+            -18.0,
+            -17.0,
+            -16.0,
+            -15.0,
+            -14.0
+          ],
+          "counts": [
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            8,
+            0,
+            8,
+            24,
+            8,
+            0,
+            16,
+            52,
+            41,
+            51,
+            38,
+            53,
+            110,
+            140,
+            39,
+            61,
+            155,
+            48,
+            38,
+            5,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

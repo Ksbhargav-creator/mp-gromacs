@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "id": "gromacs.nonbonded_coulomb.benchpep-h",
+  "id": "gromacs.nonbonded_coulomb.benchmem",
   "app": {
     "name": "GROMACS",
     "version": "2025.3",
@@ -14,10 +14,10 @@
   },
   "motif": "n_body_methods",
   "input_case": {
-    "name": "benchPEP-h",
+    "name": "benchMEM",
     "size": {
       "unit": "atoms",
-      "value": 12495503
+      "value": 81743
     },
     "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
     "license": "CC-BY-4.0"
@@ -28,7 +28,7 @@
     "tool_version": "1.0",
     "date": "2026-08-04",
     "seed": 0,
-    "notes": "Derived from benchPEP-h.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+    "notes": "Derived from benchMEM.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
   },
   "quantities": [
     {
@@ -36,45 +36,39 @@
       "role": "operand",
       "units": "e",
       "stats": {
-        "count": 12495503,
-        "count_zero": 0,
-        "count_nonzero": 12495503,
+        "count": 81743,
+        "count_zero": 11348,
+        "count_nonzero": 70395,
         "signed_min": -1.0,
-        "signed_max": 1.0,
-        "abs_min": 0.003100000089034438,
-        "abs_max": 1.0,
-        "decades": 2.5086382936924485,
-        "binades_log2": 8.333516027727239,
+        "signed_max": 1.7000000476837158,
+        "abs_min": 0.05000000074505806,
+        "abs_max": 1.7000000476837158,
+        "decades": 1.531478922752395,
+        "binades_log2": 5.087462860219014,
         "pct": {
-          "1": 0.4169999957084656,
-          "5": 0.4169999957084656,
-          "50": 0.4169999957084656,
-          "95": 0.8339999914169312,
-          "99": 0.8339999914169312
+          "1": 0.14000000059604645,
+          "5": 0.30000001192092896,
+          "50": 0.4099999964237213,
+          "95": 0.8199999928474426,
+          "99": 0.8199999928474426
         },
         "log2_hist": {
           "edges": [
-            -9.0,
-            -8.0,
-            -7.0,
-            -6.0,
             -5.0,
             -4.0,
             -3.0,
             -2.0,
             -1.0,
-            0.0
+            0.0,
+            1.0
           ],
           "counts": [
-            1000,
-            0,
-            1000,
-            1250,
-            1500,
-            4250,
-            3750,
-            8303696,
-            4179057
+            12,
+            96,
+            1152,
+            45531,
+            23329,
+            275
           ]
         }
       }
@@ -84,25 +78,24 @@
       "role": "product",
       "units": "e^2",
       "stats": {
-        "count": 2000000,
+        "count": 1999974,
         "count_zero": 0,
-        "count_nonzero": 2000000,
-        "signed_min": 0.0012927000238236036,
-        "signed_max": 1.0,
-        "abs_min": 0.0012927000238236036,
-        "abs_max": 1.0,
-        "decades": 2.888502243188211,
-        "binades_log2": 9.595396753792086,
+        "count_nonzero": 1999974,
+        "signed_min": 0.0032000001996755623,
+        "signed_max": 2.890000162124636,
+        "abs_min": 0.0032000001996755623,
+        "abs_max": 2.890000162124636,
+        "decades": 2.9557478617005333,
+        "binades_log2": 9.818781863186247,
         "pct": {
-          "1": 0.1738889964208603,
-          "5": 0.1738889964208603,
-          "50": 0.3477779928417206,
-          "95": 0.6955559856834412,
-          "99": 0.6955559856834412
+          "1": 0.057399999743700025,
+          "5": 0.11479999948740005,
+          "50": 0.2869999926090241,
+          "95": 0.672399988269806,
+          "99": 0.672399988269806
         },
         "log2_hist": {
           "edges": [
-            -10.0,
             -9.0,
             -8.0,
             -7.0,
@@ -112,19 +105,22 @@
             -3.0,
             -2.0,
             -1.0,
-            0.0
+            0.0,
+            1.0,
+            2.0
           ],
           "counts": [
-            201,
-            125,
-            422,
-            441,
-            360,
-            938,
-            1530,
-            883520,
-            888809,
-            223654
+            1,
+            16,
+            133,
+            2088,
+            37197,
+            112848,
+            835401,
+            796711,
+            210590,
+            4973,
+            16
           ]
         }
       }

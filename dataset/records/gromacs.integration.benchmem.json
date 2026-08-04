@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "id": "gromacs.integration.benchpep-h",
+  "id": "gromacs.integration.benchmem",
   "app": {
     "name": "GROMACS",
     "version": "2025.3",
@@ -14,10 +14,10 @@
   },
   "motif": "dense_linear_algebra",
   "input_case": {
-    "name": "benchPEP-h",
+    "name": "benchMEM",
     "size": {
       "unit": "atoms",
-      "value": 12495503
+      "value": 81743
     },
     "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
     "license": "CC-BY-4.0"
@@ -28,7 +28,7 @@
     "tool_version": "1.0",
     "date": "2026-08-04",
     "seed": 0,
-    "notes": "Derived from benchPEP-h.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+    "notes": "Derived from benchMEM.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
   },
   "quantities": [
     {
@@ -36,21 +36,21 @@
       "role": "operand",
       "units": "amu",
       "stats": {
-        "count": 12495503,
+        "count": 81743,
         "count_zero": 0,
-        "count_nonzero": 12495503,
+        "count_nonzero": 81743,
         "signed_min": 1.0080000162124634,
-        "signed_max": 35.45000076293945,
+        "signed_max": 35.452999114990234,
         "abs_min": 1.0080000162124634,
-        "abs_max": 35.45000076293945,
-        "decades": 1.546155709771173,
-        "binades_log2": 5.136218091359369,
+        "abs_max": 35.452999114990234,
+        "decades": 1.5461924407346999,
+        "binades_log2": 5.136340108979063,
         "pct": {
           "1": 1.0080000162124634,
           "5": 1.0080000162124634,
           "50": 1.0080000162124634,
-          "95": 16.0,
-          "99": 16.0
+          "95": 15.99940013885498,
+          "99": 15.99940013885498
         },
         "log2_hist": {
           "edges": [
@@ -63,12 +63,12 @@
             6.0
           ],
           "counts": [
-            8309446,
+            41294,
             0,
             0,
-            11250,
-            4163515,
-            11292
+            40154,
+            271,
+            24
           ]
         }
       }

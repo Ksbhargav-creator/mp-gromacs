@@ -82,12 +82,6 @@ mass 1.008, |q_i·q_j| 0.29).
 | cmet_eq | Kutzner binding-affinity (FEP, equilibration) | 67,291 | 3.15 | 1.55 | 5.71 |
 | cmet_ti | Kutzner binding-affinity (FEP, thermodynamic integ.) | 67,291 | 3.15 | 1.55 | 5.71 |
 
-
-\* Validation systems from the MDAnalysis test set, used to validate the pipeline and
-illustrate force-field dependence. All six Kutzner benchmarks are now run: the full
-standard-MD size ladder (benchMEM 82K → benchRIB 2.1M → benchPEP 12.5M) plus the cmet
-protein-ligand binding-affinity set.
-
 **Findings.** 
 
 (1) Across the whole size ladder (82K → 12.5M atoms) operand ranges stay

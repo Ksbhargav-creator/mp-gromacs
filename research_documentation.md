@@ -1,11 +1,16 @@
 # ABSTRACT DRAFT
 
-    Tapered-precision formats such as posits promise accuracy at lower bit-width than
-    IEEE floating point, but only when their non-uniform precision matches an
-    application's actual operand magnitudes. Many HPC and AI applications have operand
-    magnitudes that fall inside posit's high-precision zone, motivating us to test these
-    applications under mixed precision. We work with the molecular-dynamics engine
-    GROMACS and the input generator CHARMM-GUI.
+    In this paper, we curated real number distributions needed for the entire range of some HPC apps. Posits 
+    are termed as next generation arithmetic because of its tapered accuracy. Unlike IEEE floats, posits can be 
+    customized according to the dynamic range of a HPC app. But when we actually try to port an app, there will be a 
+    need for a lot of experiments to customize posits to the app. This is especially a problem without any reference 
+    dataset because we will have to start the experiments from scratch each time we port a HPC app. We addressed this 
+    problem by creating a motif-indexed dataset. These datasets will characterize the numerical behaviour of the different 
+    compute phases of the HPC app. Every phase is indexed by a computational motif(n\_body\_methods, spectral_methods etc...)
+    and it's operands, intermediate products, accumulation length and condition number of summation are recorded by instrumentation.
+    A arithmetic format is recommended according to the instrumented data. In this paper, we worked on three HPC applications - GROMACS,
+    CHARMM GUI and SPICE. With this dataset we will have more of a straightforward process compared to the prior trial and error approach.
+
 
 
 # What GROMACS is

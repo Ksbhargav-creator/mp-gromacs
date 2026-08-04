@@ -1,0 +1,8 @@
+/.idea
+/benchmarks
+build/fetch_benchmarks.sh
+MIXED_PRECISION_PLAN.md
+README_for_local.md
+REPO_GUIDE.md
+/mixed_precision
+/dataset_spec

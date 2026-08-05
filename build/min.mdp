@@ -1,0 +1,9 @@
+; minimal .mdp -- just enough for grompp to emit a valid .tpr (no MD is run).
+integrator     = steep
+nsteps         = 0
+cutoff-scheme  = Verlet
+coulombtype    = PME
+rvdw           = 1.0
+rcoulomb       = 1.0
+rlist          = 1.0
+constraints    = h-bonds

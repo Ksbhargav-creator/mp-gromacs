@@ -1,0 +1,4 @@
+system,n_atoms,charge,mass,coulomb_qq_product,lj_c6,lj_c12
+charmm_1AKI,1960,1.602,1.503,3.204,6.689,12.388
+charmm_1UBQ,1231,1.602,1.503,3.204,6.689,12.388
+charmm_4AKE,6682,1.602,1.503,3.204,6.689,12.388

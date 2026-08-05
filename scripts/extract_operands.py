@@ -127,15 +127,19 @@ def extract_arrays(tpr, struct=None, gmx_dump=None, max_pairs=2_000_000, do_pair
 
     if gmx_dump:
         try:
-            from parse_gmx_dump import parse_nbfp
+            from parse_gmx_dump import parse_nbfp, parse_bonded, parse_constraints
         except ImportError:
             sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-            from parse_gmx_dump import parse_nbfp
-        c6, c12 = parse_nbfp(gmx_dump)
+            from parse_gmx_dump import parse_nbfp, parse_bonded, parse_constraints
+        c6, c12 = parse_nbfp(gmx_dump)                       # nonbonded-LJ operands
         if c6.size:
             arrays["lj_c6"], arrays["lj_c12"] = c6, c12
         else:
             notes.append("gmx dump supplied but no c6/c12 parsed (check format/version)")
+        for k, v in {**parse_bonded(gmx_dump),              # bonded operands
+                     **parse_constraints(gmx_dump)}.items():# constraint operands
+            if v.size:
+                arrays[k] = v
 
     return arrays, {"n_atoms": int(ag.n_atoms), "notes": notes}
 

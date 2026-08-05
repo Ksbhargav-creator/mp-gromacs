@@ -26,6 +26,10 @@ from collections import defaultdict
 FLOAT = r"[-+]?(?:\d+\.?\d*(?:[eE][-+]?\d+)?|\.\d+(?:[eE][-+]?\d+)?|nan|inf)"
 FUNC_RE = re.compile(r"functype\[\d+\]\s*=\s*([A-Za-z0-9_]+)\s*,?(.*)")
 KV_RE = re.compile(r"([A-Za-z0-9_]+)\s*=\s*(" + FLOAT + r")")
+ATOM_RE = re.compile(r"^\s*atom\[\s*\d+\]\s*=\s*\{(.*)\}")
+CMAP_START = re.compile(r"^\s*cmap\s*$")
+_DATA4 = re.compile(r"\s*" + FLOAT + r"(?:\s+" + FLOAT + r"){3}\s*$")
+_ANGLE1 = re.compile(r"\s*" + FLOAT + r"\s*$")
 
 
 def parse_functypes(path):
@@ -73,7 +77,8 @@ def parse_bonded(path):
     every bond to a CONSTR; that stiffness is then in the lincs_constraint kernel.)"""
     ft = parse_functypes(path)
     out = {k: [] for k in ("bond_b0", "bond_k", "angle_theta0", "angle_k",
-                            "dih_k", "dih_phase", "idih_k", "idih_xi0")}
+                            "dih_k", "dih_phase", "idih_k", "idih_xi0",
+                            "ub_k", "ub_r0")}
 
     def take(entry, dst, keys):
         for k in keys:
@@ -88,6 +93,9 @@ def parse_bonded(path):
         for e in ft.get(nm, []):
             take(e, "angle_theta0", ("thetaA", "thA", "theta0", "tA"))
             take(e, "angle_k",      ("ctA", "ct", "cthetaA", "kthetaA", "ktheta"))
+    for e in ft.get("UREY_BRADLEY", []):        # CHARMM 1-3 term
+        take(e, "ub_r0", ("r13A", "r13", "r0ub"))
+        take(e, "ub_k",  ("kUBA", "kub", "cub"))
     for nm in PDIH_NAMES:
         for e in ft.get(nm, []):
             take(e, "dih_k",     ("cpA", "cp", "kphi"))
@@ -97,6 +105,65 @@ def parse_bonded(path):
             take(e, "idih_k",   ("cxA", "cx", "kxi"))
             take(e, "idih_xi0", ("xiA", "xi0", "xi"))
     return {k: np.array(v, dtype=np.float64) for k, v in out.items()}
+
+
+def parse_atoms(path):
+    """Per-atom charge q and mass m, read from the moltype `atom[i]={...}` lines of
+    `gmx dump`. This is the version-independent route for charges/masses -- used when
+    MDAnalysis cannot read a newer .tpr (e.g. tpx v138 from gmx 2026)."""
+    q, m = [], []
+    with open(path, "r", errors="replace") as fh:
+        for line in fh:
+            mm = ATOM_RE.match(line)
+            if not mm:
+                continue
+            kv = {k: float(v) for k, v in KV_RE.findall(mm.group(1))}
+            if "q" in kv:
+                q.append(kv["q"])
+            if "m" in kv:
+                m.append(kv["m"])
+    return np.array(q, dtype=np.float64), np.array(m, dtype=np.float64)
+
+
+def parse_cmap(path):
+    """CHARMM CMAP correction-map grid values (structured_grids kernel).
+
+    The grids are printed as a multi-line block, not as functype key=val fields:
+
+        cmap
+               V     dVdx     dVdy     d2dV
+        grid[  0]={
+          -180.0
+           0.544    0.080    0.096    0.010      <- V dVdx dVdy d2dV
+           ...
+        }
+        grid[  1]={ ...
+
+    We take the first column (V, the correction-map energy in kJ/mol) of every 4-float
+    data row inside the `cmap` block -- that is the operand a posit format is sized for.
+    (The single-float lines are the phi/psi axis labels; skipped.)"""
+    vals = []
+    in_cmap, seen = False, False
+    with open(path, "r", errors="replace") as fh:
+        for line in fh:
+            if not in_cmap:
+                if CMAP_START.match(line):
+                    in_cmap = True
+                continue
+            s = line.strip()
+            if not s or s.startswith(("grid[", "}", "{")):
+                continue
+            if "dVdx" in s or s.startswith("V "):          # column header
+                continue
+            if _DATA4.match(line):                          # V dVdx dVdy d2dV
+                vals.append(float(re.match(r"\s*(" + FLOAT + r")", line).group(1)))
+                seen = True
+                continue
+            if _ANGLE1.match(line):                         # phi/psi axis label
+                continue
+            if seen:                                        # left the cmap block
+                break
+    return {"cmap_grid": np.array(vals, dtype=np.float64)}
 
 
 def parse_constraints(path):

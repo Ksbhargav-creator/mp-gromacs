@@ -103,45 +103,68 @@ def extract_arrays(tpr, struct=None, gmx_dump=None, max_pairs=2_000_000, do_pair
     Reusable core shared by this script's CLI and the batch driver nga_gromacs.py.
     arrays maps operand name -> np.ndarray of values; meta carries n_atoms + notes.
     """
-    try:
-        import MDAnalysis as mda
-    except ImportError:
-        raise SystemExit("MDAnalysis is required: pip install 'MDAnalysis>=2.7'")
     import warnings
     warnings.filterwarnings("ignore")
 
-    u = mda.Universe(tpr, struct) if struct else mda.Universe(tpr)
-    ag = u.atoms
-    charges = np.asarray(ag.charges, dtype=np.float64)
-    masses = np.asarray(ag.masses, dtype=np.float64)
-    arrays = {"charge": charges, "mass": masses}
-    notes = []
+    # helper to reach parse_gmx_dump whether run as a module or a script
+    def _pgd():
+        try:
+            import parse_gmx_dump as p
+        except ImportError:
+            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import parse_gmx_dump as p
+        return p
 
+    notes = []
+    charges = masses = None
+    n_atoms = 0
     try:
-        arrays["position"] = np.asarray(ag.positions, dtype=np.float64).ravel()
-    except Exception:
-        notes.append("no coordinates in input (pass a structure file for positions)")
+        import MDAnalysis as mda
+        u = mda.Universe(tpr, struct) if struct else mda.Universe(tpr)
+        ag = u.atoms
+        charges = np.asarray(ag.charges, dtype=np.float64)
+        masses = np.asarray(ag.masses, dtype=np.float64)
+        n_atoms = int(ag.n_atoms)
+        try:
+            positions = np.asarray(ag.positions, dtype=np.float64).ravel()
+        except Exception:
+            positions = None
+            notes.append("no coordinates in input (pass a structure file for positions)")
+    except Exception as e:
+        # Newer .tpr than MDAnalysis supports (e.g. tpx v138 from gmx 2026), or no
+        # MDAnalysis. Fall back to the version-independent gmx dump for charge/mass.
+        positions = None
+        if gmx_dump:
+            charges, masses = _pgd().parse_atoms(gmx_dump)
+            n_atoms = int(charges.size)
+            notes.append(f"MDAnalysis could not read {os.path.basename(tpr)} "
+                         f"({type(e).__name__}); charges/masses read from gmx dump")
+        else:
+            raise SystemExit(
+                f"MDAnalysis could not read {tpr} ({e}). Pass --gmx-dump so charges/"
+                f"masses can be read from the dump instead.")
+
+    arrays = {"charge": charges, "mass": masses}
+    if positions is not None:
+        arrays["position"] = positions
 
     if do_pairs:
         arrays["coulomb_qq_product"] = sample_pair_products(charges, max_pairs=max_pairs)
 
     if gmx_dump:
-        try:
-            from parse_gmx_dump import parse_nbfp, parse_bonded, parse_constraints
-        except ImportError:
-            sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-            from parse_gmx_dump import parse_nbfp, parse_bonded, parse_constraints
-        c6, c12 = parse_nbfp(gmx_dump)                       # nonbonded-LJ operands
+        p = _pgd()
+        c6, c12 = p.parse_nbfp(gmx_dump)                     # nonbonded-LJ operands
         if c6.size:
             arrays["lj_c6"], arrays["lj_c12"] = c6, c12
         else:
             notes.append("gmx dump supplied but no c6/c12 parsed (check format/version)")
-        for k, v in {**parse_bonded(gmx_dump),              # bonded operands
-                     **parse_constraints(gmx_dump)}.items():# constraint operands
+        for k, v in {**p.parse_bonded(gmx_dump),            # bonded (+ Urey-Bradley)
+                     **p.parse_constraints(gmx_dump),       # constraint operands
+                     **p.parse_cmap(gmx_dump)}.items():     # CHARMM CMAP grid
             if v.size:
                 arrays[k] = v
 
-    return arrays, {"n_atoms": int(ag.n_atoms), "notes": notes}
+    return arrays, {"n_atoms": int(n_atoms), "notes": notes}
 
 
 def build_summary(label, tpr, arrays, meta):

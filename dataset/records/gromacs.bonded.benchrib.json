@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.bonded.benchrib",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "bonded",
+    "description": "Listed bonded forces: bonds, angles, dihedrals (+ Urey-Bradley / CMAP in CHARMM).",
+    "operation_role": "e.g. bond: E = 0.5*k*(b-b0)^2; force = k*(b-b0)"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "benchRIB",
+    "size": {
+      "unit": "atoms",
+      "value": 2136412
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from benchRIB.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "angle_theta0",
+      "role": "operand",
+      "units": "deg",
+      "stats": {
+        "count": 1942,
+        "count_zero": 0,
+        "count_nonzero": 1942,
+        "signed_min": 96.0,
+        "signed_max": 134.9,
+        "abs_min": 96.0,
+        "abs_max": 134.9,
+        "decades": 0.14774071663233584,
+        "binades_log2": 0.49078403733974907,
+        "pct": {
+          "1": 98.9,
+          "5": 105.4,
+          "50": 117.0,
+          "95": 128.16354999999996,
+          "99": 134.9
+        },
+        "log2_hist": {
+          "edges": [
+            6.0,
+            7.0,
+            8.0
+          ],
+          "counts": [
+            1844,
+            98
+          ]
+        }
+      }
+    },
+    {
+      "name": "angle_k",
+      "role": "operand",
+      "units": "kJ mol^-1 rad^-2",
+      "stats": {
+        "count": 1942,
+        "count_zero": 0,
+        "count_nonzero": 1942,
+        "signed_min": 292.88,
+        "signed_max": 1171.52,
+        "abs_min": 292.88,
+        "abs_max": 1171.52,
+        "decades": 0.6020599913279624,
+        "binades_log2": 2.0,
+        "pct": {
+          "1": 292.88,
+          "5": 334.72,
+          "50": 527.184,
+          "95": 669.44,
+          "99": 669.44
+        },
+        "log2_hist": {
+          "edges": [
+            8.0,
+            9.0,
+            10.0,
+            11.0
+          ],
+          "counts": [
+            698,
+            1238,
+            6
+          ]
+        }
+      }
+    },
+    {
+      "name": "dih_k",
+      "role": "operand",
+      "units": "kJ mol^-1",
+      "stats": {
+        "count": 171,
+        "count_zero": 0,
+        "count_nonzero": 171,
+        "signed_min": 4.18400002,
+        "signed_max": 43.9319992,
+        "abs_min": 4.18400002,
+        "abs_max": 43.9319992,
+        "decades": 1.021189289085475,
+        "binades_log2": 3.392317389611092,
+        "pct": {
+          "1": 4.18400002,
+          "5": 4.60239983,
+          "50": 4.60548019,
+          "95": 43.9319992,
+          "99": 43.9319992
+        },
+        "log2_hist": {
+          "edges": [
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "counts": [
+            115,
+            0,
+            0,
+            56
+          ]
+        }
+      }
+    },
+    {
+      "name": "dih_phase",
+      "role": "operand",
+      "units": "deg",
+      "stats": {
+        "count": 171,
+        "count_zero": 0,
+        "count_nonzero": 171,
+        "signed_min": 180.0,
+        "signed_max": 180.0,
+        "abs_min": 180.0,
+        "abs_max": 180.0,
+        "decades": 0.0,
+        "binades_log2": 0.0,
+        "pct": {
+          "1": 180.0,
+          "5": 180.0,
+          "50": 180.0,
+          "95": 180.0,
+          "99": 180.0
+        },
+        "log2_hist": {
+          "edges": [
+            7.0,
+            8.0
+          ],
+          "counts": [
+            171
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

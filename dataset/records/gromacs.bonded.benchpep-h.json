@@ -1,0 +1,252 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.bonded.benchpep-h",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "bonded",
+    "description": "Listed bonded forces: bonds, angles, dihedrals (+ Urey-Bradley / CMAP in CHARMM).",
+    "operation_role": "e.g. bond: E = 0.5*k*(b-b0)^2; force = k*(b-b0)"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "benchPEP-h",
+    "size": {
+      "unit": "atoms",
+      "value": 12495503
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from benchPEP-h.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "bond_b0",
+      "role": "operand",
+      "units": "nm",
+      "stats": {
+        "count": 2750,
+        "count_zero": 0,
+        "count_nonzero": 2750,
+        "signed_min": 0.1229,
+        "signed_max": 0.1526,
+        "abs_min": 0.1229,
+        "abs_max": 0.1526,
+        "decades": 0.09400265073240761,
+        "binades_log2": 0.31227004646186896,
+        "pct": {
+          "1": 0.1229,
+          "5": 0.1229,
+          "50": 0.1409,
+          "95": 0.1526,
+          "99": 0.1526
+        },
+        "log2_hist": {
+          "edges": [
+            -4.0,
+            -3.0,
+            -2.0
+          ],
+          "counts": [
+            250,
+            2500
+          ]
+        }
+      }
+    },
+    {
+      "name": "bond_k",
+      "role": "operand",
+      "units": "kJ mol^-1 nm^-2",
+      "stats": {
+        "count": 2750,
+        "count_zero": 0,
+        "count_nonzero": 2750,
+        "signed_min": 259408.0,
+        "signed_max": 548941.0,
+        "abs_min": 259408.0,
+        "abs_max": 548941.0,
+        "decades": 0.3255423037713471,
+        "binades_log2": 1.081428124972394,
+        "pct": {
+          "1": 259408.0,
+          "5": 259408.0,
+          "50": 376560.0,
+          "95": 548941.0,
+          "99": 548941.0
+        },
+        "log2_hist": {
+          "edges": [
+            17.0,
+            18.0,
+            19.0,
+            20.0
+          ],
+          "counts": [
+            250,
+            2250,
+            250
+          ]
+        }
+      }
+    },
+    {
+      "name": "angle_theta0",
+      "role": "operand",
+      "units": "deg",
+      "stats": {
+        "count": 5000,
+        "count_zero": 0,
+        "count_nonzero": 5000,
+        "signed_min": 109.5,
+        "signed_max": 126.0,
+        "abs_min": 109.5,
+        "abs_max": 126.0,
+        "decades": 0.06095642594142573,
+        "binades_log2": 0.202492863898743,
+        "pct": {
+          "1": 109.5,
+          "5": 109.5,
+          "50": 116.8,
+          "95": 123.05500000000058,
+          "99": 126.0
+        },
+        "log2_hist": {
+          "edges": [
+            6.0,
+            7.0
+          ],
+          "counts": [
+            5000
+          ]
+        }
+      }
+    },
+    {
+      "name": "angle_k",
+      "role": "operand",
+      "units": "kJ mol^-1 rad^-2",
+      "stats": {
+        "count": 5000,
+        "count_zero": 0,
+        "count_nonzero": 5000,
+        "signed_min": 292.88,
+        "signed_max": 669.44,
+        "abs_min": 292.88,
+        "abs_max": 669.44,
+        "decades": 0.35902194264166803,
+        "binades_log2": 1.192645077942396,
+        "pct": {
+          "1": 292.88,
+          "5": 292.88,
+          "50": 527.184,
+          "95": 669.44,
+          "99": 669.44
+        },
+        "log2_hist": {
+          "edges": [
+            8.0,
+            9.0,
+            10.0
+          ],
+          "counts": [
+            2000,
+            3000
+          ]
+        }
+      }
+    },
+    {
+      "name": "dih_k",
+      "role": "operand",
+      "units": "kJ mol^-1",
+      "stats": {
+        "count": 8250,
+        "count_zero": 0,
+        "count_nonzero": 8250,
+        "signed_min": -4.37646389,
+        "signed_max": 43.9319992,
+        "abs_min": 0.146439999,
+        "abs_max": 43.9319992,
+        "decades": 2.477121249776859,
+        "binades_log2": 8.228818674076242,
+        "pct": {
+          "1": 0.146439999,
+          "5": 0.334719986,
+          "50": 1.74472797,
+          "95": 15.1669998,
+          "99": 43.9319992
+        },
+        "log2_hist": {
+          "edges": [
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "counts": [
+            250,
+            1500,
+            1750,
+            1250,
+            1000,
+            1000,
+            1250,
+            0,
+            250
+          ]
+        }
+      }
+    },
+    {
+      "name": "dih_phase",
+      "role": "operand",
+      "units": "deg",
+      "stats": {
+        "count": 8250,
+        "count_zero": 5750,
+        "count_nonzero": 2500,
+        "signed_min": 0.0,
+        "signed_max": 180.0,
+        "abs_min": 180.0,
+        "abs_max": 180.0,
+        "decades": 0.0,
+        "binades_log2": 0.0,
+        "pct": {
+          "1": 180.0,
+          "5": 180.0,
+          "50": 180.0,
+          "95": 180.0,
+          "99": 180.0
+        },
+        "log2_hist": {
+          "edges": [
+            7.0,
+            8.0
+          ],
+          "counts": [
+            2500
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

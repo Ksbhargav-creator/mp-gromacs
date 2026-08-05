@@ -26,7 +26,7 @@
     "method": "static_extract",
     "tool": "summary_to_records.py",
     "tool_version": "1.0",
-    "date": "2026-08-04",
+    "date": "2026-08-05",
     "seed": 0,
     "notes": "Derived from benchRIB.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
   },

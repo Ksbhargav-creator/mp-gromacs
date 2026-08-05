@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.lincs_constraint.cmet_eq",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "lincs_constraint",
+    "description": "LINCS: reset bond lengths via a truncated series of the constraint-coupling inverse.",
+    "operation_role": "solve S*x = rhs approximately by matrix-vector iterations"
+  },
+  "motif": "sparse_linear_algebra",
+  "input_case": {
+    "name": "cmet_eq",
+    "size": {
+      "unit": "atoms",
+      "value": 67291
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from cmet_eq.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "constraint_length",
+      "role": "operand",
+      "units": "nm",
+      "stats": {
+        "count": 58,
+        "count_zero": 0,
+        "count_nonzero": 58,
+        "signed_min": 0.0957200006,
+        "signed_max": 0.180999994,
+        "abs_min": 0.0957200006,
+        "abs_max": 0.180999994,
+        "decades": 0.27667586780900194,
+        "binades_log2": 0.9190973384520654,
+        "pct": {
+          "1": 0.095879600714,
+          "5": 0.10125500145,
+          "50": 0.13804999750000002,
+          "95": 0.15225999905,
+          "99": 0.16549599514
+        },
+        "log2_hist": {
+          "edges": [
+            -4.0,
+            -3.0,
+            -2.0
+          ],
+          "counts": [
+            13,
+            45
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

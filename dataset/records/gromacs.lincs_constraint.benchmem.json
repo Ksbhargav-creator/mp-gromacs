@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.lincs_constraint.benchmem",
+  "app": {
+    "name": "GROMACS",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "lincs_constraint",
+    "description": "LINCS: reset bond lengths via a truncated series of the constraint-coupling inverse.",
+    "operation_role": "solve S*x = rhs approximately by matrix-vector iterations"
+  },
+  "motif": "sparse_linear_algebra",
+  "input_case": {
+    "name": "benchMEM",
+    "size": {
+      "unit": "atoms",
+      "value": 81743
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from benchMEM.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "constraint_length",
+      "role": "operand",
+      "units": "nm",
+      "stats": {
+        "count": 63,
+        "count_zero": 0,
+        "count_nonzero": 63,
+        "signed_min": 0.100000001,
+        "signed_max": 0.182999998,
+        "abs_min": 0.100000001,
+        "abs_max": 0.182999998,
+        "decades": 0.26245108064109685,
+        "binades_log2": 0.8718436183152083,
+        "pct": {
+          "1": 0.100000001,
+          "5": 0.100000001,
+          "50": 0.136000007,
+          "95": 0.18249999849999998,
+          "99": 0.182999998
+        },
+        "log2_hist": {
+          "edges": [
+            -4.0,
+            -3.0,
+            -2.0
+          ],
+          "counts": [
+            15,
+            48
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "id": "charmm.cmap.charmm_1ubq",
+  "app": {
+    "name": "CHARMM",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "cmap",
+    "description": "CHARMM CMAP: 2D phi/psi backbone dihedral correction map (grid interpolation).",
+    "operation_role": "E_corr = bicubic-interpolate(CMAP grid, phi, psi)"
+  },
+  "motif": "structured_grids",
+  "input_case": {
+    "name": "charmm_1UBQ",
+    "size": {
+      "unit": "atoms",
+      "value": 1231
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from charmm_1UBQ.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "cmap_grid",
+      "role": "operand",
+      "units": "kJ mol^-1",
+      "stats": {
+        "count": 13824,
+        "count_zero": 1748,
+        "count_nonzero": 12076,
+        "signed_min": -29.497,
+        "signed_max": 50.959,
+        "abs_min": 0.002,
+        "abs_max": 50.959,
+        "decades": 4.4061909013174905,
+        "binades_log2": 14.637049346523643,
+        "pct": {
+          "1": 0.1,
+          "5": 0.569,
+          "50": 7.785,
+          "95": 31.316,
+          "99": 38.981
+        },
+        "log2_hist": {
+          "edges": [
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0,
+            -5.0,
+            -4.0,
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "counts": [
+            2,
+            0,
+            0,
+            8,
+            42,
+            82,
+            120,
+            258,
+            526,
+            1008,
+            1695,
+            2364,
+            3107,
+            2344,
+            520
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

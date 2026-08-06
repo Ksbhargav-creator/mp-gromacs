@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "id": "charmm.lincs_constraint.charmm_1ubq",
+  "app": {
+    "name": "CHARMM",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "lincs_constraint",
+    "description": "LINCS: reset bond lengths via a truncated series of the constraint-coupling inverse.",
+    "operation_role": "solve S*x = rhs approximately by matrix-vector iterations"
+  },
+  "motif": "sparse_linear_algebra",
+  "input_case": {
+    "name": "charmm_1UBQ",
+    "size": {
+      "unit": "atoms",
+      "value": 1231
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from charmm_1UBQ.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "constraint_length",
+      "role": "operand",
+      "units": "nm",
+      "stats": {
+        "count": 8,
+        "count_zero": 0,
+        "count_nonzero": 8,
+        "signed_min": 0.0960000008,
+        "signed_max": 0.111100003,
+        "abs_min": 0.0960000008,
+        "abs_max": 0.111100003,
+        "decades": 0.06344283400930209,
+        "binades_log2": 0.21075253271477604,
+        "pct": {
+          "1": 0.096259000492,
+          "5": 0.09729499926,
+          "50": 0.1060000025,
+          "95": 0.1103650009,
+          "99": 0.11095300258
+        },
+        "log2_hist": {
+          "edges": [
+            -4.0,
+            -3.0
+          ],
+          "counts": [
+            8
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

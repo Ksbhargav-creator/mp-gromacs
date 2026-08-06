@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0",
+  "id": "charmm.nonbonded_coulomb.charmm_1aki",
+  "app": {
+    "name": "CHARMM",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "nonbonded_coulomb",
+    "description": "Short-range real-space Coulomb interaction over Verlet neighbour pairs (nbnxm).",
+    "operation_role": "per pair: E = f * q_i * q_j * rinv * erfc(beta*r); force summed onto each atom"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "charmm_1AKI",
+    "size": {
+      "unit": "atoms",
+      "value": 1960
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from charmm_1AKI.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "charge",
+      "role": "operand",
+      "units": "e",
+      "stats": {
+        "count": 1960,
+        "count_zero": 8,
+        "count_nonzero": 1952,
+        "signed_min": -0.8,
+        "signed_max": 0.64,
+        "abs_min": 0.02,
+        "abs_max": 0.8,
+        "decades": 1.6020599913279623,
+        "binades_log2": 5.321928094887363,
+        "pct": {
+          "1": 0.040200000000000034,
+          "5": 0.07,
+          "50": 0.18,
+          "95": 0.62,
+          "99": 0.8
+        },
+        "log2_hist": {
+          "edges": [
+            -6.0,
+            -5.0,
+            -4.0,
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0
+          ],
+          "counts": [
+            20,
+            23,
+            842,
+            179,
+            481,
+            407
+          ]
+        }
+      }
+    },
+    {
+      "name": "coulomb_qq_product",
+      "role": "product",
+      "units": "e^2",
+      "stats": {
+        "count": 1904176,
+        "count_zero": 0,
+        "count_nonzero": 1904176,
+        "signed_min": 0.0004,
+        "signed_max": 0.6400000000000001,
+        "abs_min": 0.0004,
+        "abs_max": 0.6400000000000001,
+        "decades": 3.204119982655925,
+        "binades_log2": 10.643856189774725,
+        "pct": {
+          "1": 0.0035000000000000005,
+          "5": 0.0063,
+          "50": 0.0423,
+          "95": 0.2601,
+          "99": 0.376
+        },
+        "log2_hist": {
+          "edges": [
+            -12.0,
+            -11.0,
+            -10.0,
+            -9.0,
+            -8.0,
+            -7.0,
+            -6.0,
+            -5.0,
+            -4.0,
+            -3.0,
+            -2.0,
+            -1.0,
+            0.0
+          ],
+          "counts": [
+            91,
+            99,
+            11240,
+            10901,
+            112238,
+            337595,
+            341429,
+            539440,
+            193697,
+            245319,
+            109865,
+            2262
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

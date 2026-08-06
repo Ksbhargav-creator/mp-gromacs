@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "id": "charmm.integration.charmm_1aki",
+  "app": {
+    "name": "CHARMM",
+    "version": "2025.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "integration",
+    "description": "Leap-frog Verlet time integration (per-atom vector update).",
+    "operation_role": "a = F/m; v += a*dt; x += v*dt  (AXPY-like per-atom update)"
+  },
+  "motif": "dense_linear_algebra",
+  "input_case": {
+    "name": "charmm_1AKI",
+    "size": {
+      "unit": "atoms",
+      "value": 1960
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "static_extract",
+    "tool": "summary_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-05",
+    "seed": 0,
+    "notes": "Derived from charmm_1AKI.tpr operand summary; accumulation and format_fit layers require instrumented trace + replay."
+  },
+  "quantities": [
+    {
+      "name": "mass",
+      "role": "operand",
+      "units": "amu",
+      "stats": {
+        "count": 1960,
+        "count_zero": 0,
+        "count_nonzero": 1960,
+        "signed_min": 1.008,
+        "signed_max": 32.06,
+        "abs_min": 1.008,
+        "abs_max": 32.06,
+        "decades": 1.5025029859086196,
+        "binades_log2": 4.991206881541994,
+        "pct": {
+          "1": 1.008,
+          "5": 1.008,
+          "50": 12.011,
+          "95": 15.9994,
+          "99": 15.9994
+        },
+        "log2_hist": {
+          "edges": [
+            0.0,
+            1.0,
+            2.0,
+            3.0,
+            4.0,
+            5.0,
+            6.0
+          ],
+          "counts": [
+            959,
+            0,
+            0,
+            991,
+            0,
+            10
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Static operand-distribution record; accumulation/format_fit pending instrumentation."
+}

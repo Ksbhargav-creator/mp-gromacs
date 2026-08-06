@@ -49,15 +49,6 @@ for pdb in $PDBS; do
   gmx dump    -s "charmm_$pdb.tpr" > "charmm_$pdb.dump.txt" 2>/dev/null
 done
 
-echo; echo "======================================================================"
-echo " CHARMM benchmark parse check (benchmarks/charmm/charmm_$FIRST.dump.txt):"
-echo "======================================================================"
-echo ">>> (1) functype diagnosis"
-python3 "$ROOT/scripts/parse_gmx_dump.py" --diagnose "charmm_$FIRST.dump.txt"
-echo; echo ">>> (2) CMAP grid sanity (first data rows)"
-grep -n -A8 -iE "^\s*cmap\s*$" "charmm_$FIRST.dump.txt" | head -12
-echo "======================================================================"
-
 # Build the records + histograms (CHARMM records are labelled app.name=CHARMM).
 # --gmx-dump-dir "$BM" points the pipeline at the dumps we just wrote here.
 python3 "$ROOT/scripts/nga_gromacs.py" "$BM"/charmm_*.tpr --gmx-dump-dir "$BM" --out "$BM/runs"

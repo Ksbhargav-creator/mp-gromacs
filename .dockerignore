@@ -1,0 +1,20 @@
+# Keep the build context (and image) small and reproducible.
+.git
+.idea
+.DS_Store
+**/.DS_Store
+**/__pycache__
+**/*.pyc
+
+# Large regenerable inputs -- benchmark trajectories/tpr dumps are fetched or built,
+# not baked into the image. (benchmarks/ is git-ignored anyway; dataset/records IS kept.)
+benchmarks/zip-files
+benchmarks/*.tpr
+benchmarks/*.trr
+benchmarks/**/*.tpr
+benchmarks/**/*.trr
+
+# Regenerable outputs
+runs
+runs_charmm
+docs/*.png

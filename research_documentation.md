@@ -62,6 +62,7 @@ under identical tooling.
 
 # What we instrumented in GROMACS
 
+We haven't instrumented it yet in the traditional sense, but extracted the operands instead.
 We extract the operands directly from each compiled `.tpr` run input using a
 pure-Python reader (MDAnalysis) — no GROMACS rebuild required. For each system we
 record the partial charges q_i, atomic masses m_i, and a sampled distribution of the
@@ -106,6 +107,27 @@ direct evidence for a per-force-field tailored format. Caveat: these are *operan
 ranges; the runtime *products* (LJ r^-12 tower, Coulomb q_i·q_j/r) span even wider 
 and are where mixed precision will actually be tested.
 
+To actually instrument GROMACS, we need to have it on our local machine. I downloaded
+the tar ball and tried to build GROMACS. But I got an error since Mac compiler doesn't 
+have OpenMP, so I downloaded it without OpenMP(`-DMGX_OPENMP=OFF`).(This turned out to
+be a mistake) 
+
+Now we need to decide where we need to hook the instrumentation in the kernels. I copied
+instrumentation/nga_range_stats.hpp to gromacs src code at it's root as we would need it
+to instrument the kernels. A brief overview of nga_range_stats.hpp - It's similar to dynamic_
+range.hpp in SPICE and records instrumented values. 
+
+GROMACS's real type is float or double depending on the GMX_DOUBLE CMake option, so the same
+instrumented source compiled twice will give us fp32 and fp64 arithmetic as the engine performs
+it. From these values, we can make our value-distribution histograms.
+
+As for the Instrumentation method, it starts with two header files - nga_range_stats.hpp and 
+nga_trace.hpp. A brief overview on these header files
+
+| Header              | Flag           | Macro                                  | Purpose                                                                                                                               |
+|---------------------|----------------|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| nga_range_stats.hpp | NGA_INSTRUMENT | NGA_RECORD(name, value),NGA_FLUSH(stem)| aggregate per-quantity dynamic-range stats (min/max/decades + log2 regime histogram) |
+| nga_trace.hpp       | NGA_TRACE      |NGA_TRACE_ROW(i,j,qq,rinv,c6,c12), NGA_TRACE_CLOSE()|one CSV row per interaction; input to the paired fp32/fp64 error harness|
 
 # What we instrumented in CHARMM GUI
 

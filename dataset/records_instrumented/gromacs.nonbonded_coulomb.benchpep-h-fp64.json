@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "id": "gromacs.nonbonded_coulomb.benchpep-h-fp64",
+  "app": {
+    "name": "GROMACS",
+    "version": "2026.3",
+    "url": "https://www.gromacs.org",
+    "license": "LGPL-2.1"
+  },
+  "kernel": {
+    "name": "nonbonded_coulomb",
+    "description": "Short-range real-space Coulomb interaction over Verlet neighbour pairs (nbnxm); runtime products from the reference kernel's inner loop.",
+    "operation_role": "per pair: coulomb_qq = f*q_i*q_j; coulomb_term = coulomb_qq * rinv"
+  },
+  "motif": "n_body_methods",
+  "input_case": {
+    "name": "benchPEP-h",
+    "size": {
+      "unit": "atoms",
+      "value": 0
+    },
+    "source_url": "https://www.mpinat.mpg.de/grubmueller/bench",
+    "license": "CC-BY-4.0"
+  },
+  "provenance": {
+    "method": "instrumented_trace",
+    "tool": "instrumented_to_records.py",
+    "tool_version": "1.0",
+    "date": "2026-08-19",
+    "seed": 0,
+    "notes": "GROMACS reference kernel (kernel_ref_1x1/4x4, GMX_SIMD=NONE), real=fp64, one deterministic force evaluation (GMX_NBNXN_REF=1, -nsteps 0, -ntmpi 1 -ntomp 1). See instrumentation/INSTRUMENTATION.md for hook locations."
+  },
+  "quantities": [
+    {
+      "name": "coulomb_qq",
+      "role": "product",
+      "units": "kJ mol^-1 nm (Coulomb-prefactor-scaled q_i*q_j; see notes)",
+      "stats": {
+        "count": 7334404224,
+        "count_zero": 2818865206,
+        "count_nonzero": 4515539018,
+        "count_nan": 0,
+        "signed_min": -138.935458,
+        "signed_max": 138.935458,
+        "abs_min": 0.00133516982,
+        "abs_max": 138.935458,
+        "decades": 5.0173,
+        "binades_log2": 16.667032064178972,
+        "log2_hist": {
+          "edges": [
+            -9,
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "counts": [
+            1506,
+            5872,
+            4977,
+            7058,
+            22484,
+            29804,
+            482687,
+            279272,
+            945563,
+            641365,
+            1040545,
+            2218447,
+            3256098,
+            1993406617,
+            2009561602,
+            503619463,
+            15658
+          ]
+        }
+      }
+    },
+    {
+      "name": "coulomb_term",
+      "role": "product",
+      "units": "kJ mol^-1",
+      "stats": {
+        "count": 7334404224,
+        "count_zero": 2818865206,
+        "count_nonzero": 4515539018,
+        "count_nan": 0,
+        "signed_min": -707.047009,
+        "signed_max": 439.652626,
+        "abs_min": 0.00114113051,
+        "abs_max": 707.047009,
+        "decades": 5.7921,
+        "binades_log2": 19.240982811530547,
+        "log2_hist": {
+          "edges": [
+            -9,
+            -8,
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "counts": [
+            5,
+            1038,
+            1077,
+            4573,
+            5693,
+            15923,
+            25546,
+            367508,
+            326608,
+            648654,
+            927859,
+            1078358,
+            1939066,
+            2788157,
+            1500793798,
+            1942426667,
+            868991561,
+            169807359,
+            25383196,
+            6372
+          ]
+        }
+      }
+    },
+    {
+      "name": "rinv",
+      "role": "product",
+      "units": "nm^-1",
+      "stats": {
+        "count": 7334404224,
+        "count_zero": 2817701659,
+        "count_nonzero": 4516702565,
+        "count_nan": 0,
+        "signed_min": 0.8333333,
+        "signed_max": 1e+18,
+        "abs_min": 0.8333333,
+        "abs_max": 1e+18,
+        "decades": 18.0792,
+        "binades_log2": 60.05774017151412,
+        "log2_hist": {
+          "edges": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            60,
+            61
+          ],
+          "counts": [
+            1904550584,
+            2287649984,
+            293358641,
+            21667361,
+            8312448,
+            1163547
+          ]
+        }
+      }
+    }
+  ],
+  "notes": "Runtime (instrumented_trace) record: operands + products the nonbonded reference kernel actually forms, not just static .tpr parameters. accumulation/format_fit layers still pending the paired-trace replay step."
+}

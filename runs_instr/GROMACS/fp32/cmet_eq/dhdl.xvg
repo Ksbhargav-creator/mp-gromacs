@@ -1,0 +1,19 @@
+# This file was created Thu Aug 13 21:01:50 2026
+# Created by:
+#                      :-) GROMACS - gmx mdrun, 2026.3 (-:
+# 
+# Executable:   /Users/shreebhargavkomanabelli/Desktop/gromacs-2026.3/build-single/bin/gmx
+# Data prefix:  /Users/shreebhargavkomanabelli/Desktop/gromacs-2026.3 (source tree)
+# Working dir:  /Users/shreebhargavkomanabelli/Desktop/mp-gromacs/runs_instr/GROMACS/fp32/cmet_eq
+# Command line:
+#   gmx mdrun -s /Users/shreebhargavkomanabelli/Desktop/mp-gromacs/benchmarks/cmet_eq.tpr -nsteps 0 -ntmpi 1 -ntomp 1 -o traj.trr -e ener.edr -g md.log
+# gmx mdrun is part of G R O M A C S:
+#
+# Gallium Rubidium Oxygen Manganese Argon Carbon Silicon
+#
+@    title "dH/d\xl\f{}"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "dH/d\xl\f{} (kJ/mol [\xl\f{}]\S-1\N)"
+@TYPE xy
+@ subtitle "T = 298 (K) \xl\f{} = 0.0000"
+0.0000 73.184555
